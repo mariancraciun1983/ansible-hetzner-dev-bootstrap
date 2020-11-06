@@ -19,8 +19,8 @@ driver:
     name: libvirt
     type: libvirt
     options:
-      memory: 256
-      cpus: 1
+      memory: 512
+      cpus: 2
     config_options:
       ssh.keep_alive: yes
       ssh.remote_user: "'vagrant'"
@@ -29,20 +29,20 @@ driver:
 
 platforms:
   # ubuntu
-  # - name: target1
-  #   box: generic/ubuntu2004
-  # - name: target2
-  #   box: generic/ubuntu1804
-  # - name: target3
-  #   box: generic/ubuntu1604
+  - name: target1
+    box: generic/ubuntu2004
+  - name: target2
+    box: generic/ubuntu1804
+  - name: target3
+    box: generic/ubuntu1604
   # debian
   - name: target4
     box: generic/debian10
-  - name: target5
-    box: generic/debian9
+  # - name: target5
+  #   box: generic/debian9
   # centos
-  # - name: target6
-  #   box: generic/centos8
+  - name: target6
+    box: generic/centos8
 
 provisioner:
   name: ansible

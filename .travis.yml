@@ -17,7 +17,9 @@ branches:
     - develop
 
 env:
-  - VAGRANT_DEFAULT_PROVIDER=libvirt
+  global:
+    - VAGRANT_DEFAULT_PROVIDER=libvirt
+    # - PIPENV_IGNORE_VIRTUALENVS=1
 
 before_install:
   - python --version
@@ -33,10 +35,11 @@ install:
   - sudo vagrant plugin install vagrant-libvirt
   - sudo vagrant plugin list
 
-
 script:
   - sudo vagrant --version
-  - sudo -E pipenv run molecule lint
+  - pipenv run python -V
+  - pipenv run molecule --version
+  - pipenv run molecule lint
   # - sudo -E pipenv run molecule create
   # - sudo -E pipenv run molecule converge
   # - sudo -E pipenv run molecule destroy
