@@ -1,0 +1,34 @@
+---
+- name: mounts
+  block:
+    - name: mounts | install mount packages
+      package:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - davfs2
+
+    - name: mounts | configure davfs2 locks
+      lineinfile: path=/etc/davfs2/davfs2.conf regexp="^#use_locks" line="use_locks 0"
+
+    - name: mounts | configure davfs2 passwords
+      lineinfile:
+        path: /etc/davfs2/secrets
+        line: "{{ item.src }} {{ item.user }} {{ item.password }}"
+        state: present
+      no_log: true
+      with_items: "{{ davfs2_mounts }}"
+
+    - name: mounts | mount the new volume
+      mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src }}"
+        state: mounted
+        fstype: "{{ item.fstype }}"
+        # yamllint disable-line rule:line-length
+        opts: noauto,_netdev,rw,uid=user,gid=group,x-systemd.automount,x-systemd.mount-timeout=10s,x-systemd.idle-timeout=10m
+      no_log: true
+      with_items: "{{ davfs2_mounts }}"
+
+  when: davfs2_mounts and davfs2_mounts|length

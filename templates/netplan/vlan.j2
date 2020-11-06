@@ -1,0 +1,12 @@
+network:
+  version: 2
+  vlans:
+    vlan{{ vswitch_vlan_id }}:
+      id: {{ vswitch_vlan_id }}
+      link: {{ ansible_default_ipv4.interface }}
+      optional: true
+      dhcp4: false
+      dhcp6: false
+      mtu: 1400
+      addresses:
+        - {{ vswitch_ip }}/{{ vswitch_netmask }}

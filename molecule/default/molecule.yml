@@ -1,0 +1,71 @@
+---
+scenario:
+  name: default
+
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: True
+    ignore-errors: True
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+    type: libvirt
+    options:
+      memory: 256
+      cpus: 1
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: "'vagrant'"
+    provider_raw_config_args:
+      - driver = "qemu"
+
+platforms:
+  # ubuntu
+  # - name: target1
+  #   box: generic/ubuntu2004
+  # - name: target2
+  #   box: generic/ubuntu1804
+  # - name: target3
+  #   box: generic/ubuntu1604
+  # debian
+  - name: target4
+    box: generic/debian10
+  - name: target5
+    box: generic/debian9
+  # centos
+  # - name: target6
+  #   box: generic/centos8
+
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        vswitch_add_server: false
+        vswitch: true
+        admin_user:
+          name: ansible
+          group: wheel
+          authorized_key_file:
+          sudo: true
+    host_vars:
+      target1:
+        vswitch_ip: 10.0.0.11
+      target2:
+        vswitch_ip: 10.0.0.12
+      target3:
+        vswitch_ip: 10.0.0.13
+      target4:
+        vswitch_ip: 10.0.0.14
+      target5:
+        vswitch_ip: 10.0.0.15
+      target6:
+        vswitch_ip: 10.0.0.16

@@ -1,0 +1,11 @@
+---
+- name: network | nmcli
+  nmcli:
+    conn_name: "vlan{{ vswitch_vlan_id }}"
+    ifname: "vlan{{ vswitch_vlan_id }}"
+    ip4: "{{ vswitch_ip }}/{{ vswitch_netmask }}"
+    vlanid: "{{ vswitch_vlan_id }}"
+    vlandev: "{{ ansible_default_ipv4.interface }}"
+    state: present
+    mtu: 1400
+    type: vlan

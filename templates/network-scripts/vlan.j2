@@ -1,0 +1,6 @@
+DEVICE="{{ansible_default_ipv4.interface}}.{{ vswitch_vlan_id }}"
+BOOTPROTO="none"
+ONBOOT="yes"
+IPADDR="{{ vswitch_ip }}"
+PREFIX="{{ vswitch_netmask }}"
+VLAN="yes"

@@ -1,0 +1,33 @@
+---
+
+- name: network | check requirements
+  assert:
+    that:
+      - vswitch_ip | mandatory and vswitch_ip | length > 0
+      - vswitch_netmask | mandatory
+      - vswitch_vlan_id | mandatory
+    quiet: true
+    fail_msg: Failed passing network requirements check.
+
+- include_tasks: network/vswitch.yml
+  when: vswitch_add_server|bool
+
+- name: network | check for netplan support
+  command: command -v netplan
+  register: check_netplan
+  changed_when: false
+  failed_when: false
+
+- name: network | add the 802.1q module
+  modprobe:
+    name: 8021q
+    state: present
+
+- include_tasks: network/debian-netplan.yml
+  when: ansible_os_family == 'Debian' and check_netplan.rc == 0
+
+- include_tasks: network/debian-interface.yml
+  when: ansible_os_family == 'Debian' and check_netplan.rc != 0
+
+- include_tasks: network/network-scripts.yml
+  when: ansible_os_family == 'RedHat'

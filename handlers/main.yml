@@ -1,0 +1,17 @@
+---
+- name: netplan apply update
+  command: netplan generate
+  notify: netplan apply
+
+- name: netplan apply
+  command: netplan apply
+
+- name: restart networking
+  service:
+    name: networking
+    state: restarted
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted

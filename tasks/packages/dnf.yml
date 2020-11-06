@@ -1,0 +1,41 @@
+---
+- name: packages | ensure python3-dnf is installed
+  raw: >-
+    if rpm -q python3-dnf > /dev/null 2>&1; then
+      exit 0
+    else
+      (
+        yum -y update &&
+        (yum install -y python3-dnf) &&
+        exit 101
+      )
+    fi
+  register: yum_info
+  changed_when: yum_info.rc == 101
+  failed_when: yum_info.rc != 0 and yum_info.rc != 101
+
+- name: packages | upgrade all existing packages to their latest version
+  dnf:
+    name: "*"
+    state: latest
+
+- name: packages | install default packages
+  dnf:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - ca-certificates
+      - curl
+      - iptables
+      - acl
+      - openssh-server
+      - dirmngr
+      - python3
+      - python3-pip
+
+      # dev
+      - vim
+      - curl
+      - wget
+      - bash-completion

@@ -1,0 +1,27 @@
+---
+- name: admin users | ensure group is present
+  group:
+    name: "{{ admin_user.group }}"
+    state: present
+
+- name: admin users | create user
+  user:
+    name: "{{ admin_user.name }}"
+    group: "{{ admin_user.group }}"
+    state: present
+
+- name: admin users | add user to sudoers
+  lineinfile:
+    path: "/etc/sudoers.d/{{ admin_user.name }}"
+    line: "{{ admin_user.name }}        ALL=(ALL)       NOPASSWD: ALL"
+    state: present
+    create: true
+    mode: 0640
+  when: admin_user.sudo|bool
+
+- name: admin users | set user authorized key
+  authorized_key:
+    user: "{{ admin_user.name }}"
+    state: present
+    key: "{{ lookup('file', admin_user.authorized_key_file) }}"
+  when: admin_user.authorized_key_file and admin_user.authorized_key_file|length > 0

@@ -1,0 +1,6 @@
+auto {{ ansible_default_ipv4.interface}}.{{ vswitch_vlan_id }}
+iface {{ ansible_default_ipv4.interface}}.{{ vswitch_vlan_id }} inet static
+  address {{ vswitch_ip }}
+  netmask {{ vswitch_netmask }}
+  vlan-raw-device {{ ansible_default_ipv4.interface }}
+  mtu 1400

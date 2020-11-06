@@ -1,0 +1,30 @@
+---
+- name: network | search for server in vswitch
+  uri:
+    url: "https://robot-ws.your-server.de/vswitch/{{ vswitch_id }}"
+    method: GET
+    user: "{{ robotws_user }}"
+    password: "{{ robotws_password }}"
+    status_code:
+      - 200
+  delegate_to: localhost
+  register: vswitch_get_result
+  throttle: 1
+
+- name: network | add server to Hetzner's vswitch
+  uri:
+    url: "https://robot-ws.your-server.de/vswitch/{{ vswitch_id }}/server"
+    method: POST
+    user: "{{ robotws_user }}"
+    password: "{{ robotws_password }}"
+    body: "server={{ ansible_default_ipv4.address }}"
+    body_format: raw
+    status_code:
+      - 200
+      - 201
+  delegate_to: localhost
+  register: vswitch_add_result
+  until: vswitch_add_result.status != 409
+  delay: 30
+  throttle: 1
+  when: not vswitch_get_result.json|is_in_vswitch(ansible_default_ipv4.address)

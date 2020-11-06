@@ -1,0 +1,38 @@
+---
+## Hetzner's vswitch configuration
+# WebService AUTH for adding the server into vswitch
+robotws:
+  user:
+  password:
+
+## vSwitch configuration
+# activate vSwitch
+vswitch: false
+# ip address ex: 10.0.0.10
+vswitch_ip:
+# netmask
+vswitch_netmask: 24
+# vswitch ID ex: 14639
+vswitch_id:
+# VLAN ID
+vswitch_vlan_id: 4000
+# phisical interface name ex: enp2s0
+vswitch_interface_link: "{{ ansible_default_ipv4.interface }}"
+vswitch_add_server: true
+
+hosts_exchange: true
+
+sysct_items:
+  - name: net.ipv4.ip_nonlocal_bind
+    value: 1
+
+# path to id_rsa.pub, if any
+admin_user:
+  name: ansible
+  group: wheel
+  authorized_key_file: "{{ lookup('env','HOME') + '/.ssh/id_rsa.pub' }}"
+  sudo: true
+
+davfs2_mounts:
+
+reboot_if_needed: false

@@ -1,0 +1,7 @@
+---
+- name: Prepare
+  hosts: all
+  user: vagrant
+  become: yes
+  roles:
+    - mariancraciun1983.install_python

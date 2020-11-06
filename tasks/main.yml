@@ -1,0 +1,45 @@
+---
+- name: packages
+  import_tasks: packages.yml
+  tags:
+    - packages
+
+- name: sshd
+  import_tasks: sshd.yml
+  tags:
+    - sshd
+
+- name: network
+  import_tasks: network.yml
+  when: vswitch|bool
+  tags:
+    - network
+
+- name: hosts
+  import_tasks: hosts.yml
+  when: hosts_exchange|bool
+  tags:
+    - hosts
+
+- name: sysctl
+  import_tasks: sysctl.yml
+  when: sysct_items|length
+  tags:
+    - sysctl
+
+- name: admin_user
+  import_tasks: admin_user.yml
+  when: admin_user.name is defined
+  tags:
+    - admin_user
+
+- name: mounts
+  import_tasks: mounts.yml
+  tags:
+    - mounts
+
+- name: reboot-if-needed
+  import_tasks: reboot-if-needed.yml
+  when: reboot_if_needed
+  tags:
+    - reboot-if-needed

@@ -1,0 +1,7 @@
+---
+- name: network | interfaces.d
+  template:
+    src: interface/vlan.j2
+    dest: "/etc/network/interfaces.d/02-vlan-{{ vswitch_vlan_id }}"
+    mode: 0644
+  notify: restart networking

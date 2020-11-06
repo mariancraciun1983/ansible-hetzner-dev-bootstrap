@@ -1,0 +1,45 @@
+---
+language: python
+services: docker
+
+python:
+  - "3.8"
+
+cache:
+  - pip:
+  - directories:
+    - /home/travis/.vagrant.d/boxes
+    - /home/travis/.cache/pipenv
+
+branches:
+  only:
+    - master
+    - develop
+
+env:
+  - VAGRANT_DEFAULT_PROVIDER=libvirt
+
+before_install:
+  - python --version
+
+
+install:
+  - curl -skL https://bootstrap.pypa.io/get-pip.py | sudo -H python3
+  - sudo -H pip3 install pipenv
+  - sudo -H pipenv install
+  - sudo apt-get update && sudo apt-get install -y bridge-utils dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils ruby-dev
+  - sudo wget -nv https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
+  - sudo dpkg -i vagrant_2.2.10_x86_64.deb
+  - sudo vagrant plugin install vagrant-libvirt
+  - sudo vagrant plugin list
+
+
+script:
+  - sudo vagrant --version
+  - sudo -E pipenv run molecule lint
+  # - sudo -E pipenv run molecule create
+  # - sudo -E pipenv run molecule converge
+  # - sudo -E pipenv run molecule destroy
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

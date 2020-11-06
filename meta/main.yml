@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: hetzner_dev_boostrap
+  author: Marian Craciun
+  description: Bootstrap Hetzner's Robot servers with integrated Hetzner vSwitch, Storage Box and Failover Ip
+  license: MIT
+
+  min_ansible_version: 2.6
+  galaxy_tags:
+    - bootstrap
+    - python2
+    - python3
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+        - stretch
+    - name: Ubuntu
+      versions:
+        - focal
+        - bionic
+        - xenial
+    - name: EL
+      versions:
+        - 8
+dependencies: []

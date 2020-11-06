@@ -1,0 +1,12 @@
+---
+- name: packages | ensure any of dnf or apt are supported
+  assert:
+    that: ansible_pkg_mgr == "dnf" or ansible_pkg_mgr == "apt"
+    quiet: true
+    fail_msg: at least dnf or apt needs to be supported
+
+- include_tasks: packages/dnf.yml
+  when: ansible_pkg_mgr == 'dnf'
+
+- include_tasks: packages/apt.yml
+  when: ansible_pkg_mgr == "apt"

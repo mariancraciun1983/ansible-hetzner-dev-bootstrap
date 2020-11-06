@@ -1,0 +1,7 @@
+---
+- name: network | netplan
+  template:
+    src: netplan/vlan.j2
+    dest: "/etc/netplan/02-vlan{{ vswitch_vlan_id }}.yaml"
+    mode: 0644
+  notify: netplan apply update

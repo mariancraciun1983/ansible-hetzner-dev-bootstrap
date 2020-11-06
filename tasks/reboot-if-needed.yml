@@ -1,0 +1,21 @@
+---
+
+- name: reboot-if-needed| check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: reboot-if-needed
+  block:
+    - name: reboot-if-needed | reboot server
+      reboot:
+        post_reboot_delay: 20
+    - name: reboot-if-needed | wait for the reboot to complete
+      wait_for_connection:
+        connect_timeout: 5
+        sleep: 5
+        delay: 20
+        timeout: 300
+    - name: gather facts
+      setup:
+  when: reboot_required_file.stat.exists
