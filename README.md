@@ -2,14 +2,14 @@
 <br />
 
 <div align="center">
-  <a href="https://travis-ci.org/mariancraciun1983/ansible-hetzner-bootstrap">
-    <img src="https://travis-ci.org/mariancraciun1983/ansible-hetzner-bootstrap.svg?branch=master" alt="Build Status" />
+  <a href="https://travis-ci.com/mariancraciun1983/ansible-hetzner-dev-bootstrap">
+    <img src="https://travis-ci.com/mariancraciun1983/ansible-hetzner-dev-bootstrap.svg?branch=master" alt="Build Status" />
   </a>
-  <a href="https://galaxy.ansible.com/mariancraciun1983/ansible-hetzner-bootstrap">
-    <img src="https://img.shields.io/ansible/role/51609" alt="Ansible Galaxy" />
+  <a href="https://galaxy.ansible.com/mariancraciun1983/hetzner_dev_boostrap">
+    <img src="https://img.shields.io/ansible/role/51683" alt="Ansible Galaxy" />
   </a>
-  <a href="https://galaxy.ansible.com/mariancraciun1983/ansible-hetzner-bootstrap">
-    <img src="https://img.shields.io/ansible/quality/51609" alt="Ansible Quality Score" />
+  <a href="https://galaxy.ansible.com/mariancraciun1983/hetzner_dev_boostrap">
+    <img src="https://img.shields.io/ansible/quality/51683" alt="Ansible Quality Score" />
   </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
@@ -26,7 +26,7 @@ This role is useful during my lessons specifically for practicing on the Hetzner
 [hetzner_install_image](https://galaxy.ansible.com/mariancraciun1983/hetzner_install_image) and [install_python](https://galaxy.ansible.com/mariancraciun1983/install_python) .
 
 ### Ansible
-This role was tested against Ansible version 2.7 2.8 2.9 2.10 .
+This role was tested against Ansible version 2.8 2.9 2.10 .
 The supported platforms are
   - Debian
     - buster
